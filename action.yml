@@ -1,0 +1,34 @@
+name: 'Obsidian to Hugo Page Bundle'
+description: 'A GitHub Action that extracts Obsidian Vault content, and transforms it to Hugo Page Bundles.'
+inputs:
+  obsidian-vault-dir:
+    description: 'Directory of the Obsidian vault'
+    required: true
+    default: "vault"
+  hugo-content-dir:
+    description: 'Directory of your Hugo content directory, the obsidian notes should be processed into.'
+    required: true
+    default: "content"
+  export-dir:
+    description: 'The Obsidian vault folder the notes should be processed from.'
+    required: true
+    default: "vault"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'  
+    - name: Install Dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+    # - name: Pass Inputs to Shell
+    #   run: |
+    #    echo "INPUT_NUM=${{ inputs.num }}" >> $GITHUB_ENV
+    #   shell: bash
+    - name: Run the Python Script
+      id: obsidian2hugo
+      run: python src/main.py --obsidian-vault-dir ${{ inputs.obsidian-vault-dir }} --hugo-content-dir ${{ inputs.hugo-content-dir }} --export-dir ${{ inputs.export-dir }}
+      shell: bash
