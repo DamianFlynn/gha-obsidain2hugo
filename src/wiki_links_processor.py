@@ -3,7 +3,6 @@ Utilities to extract wiki links from text and turn them into hugo links.
 """
 
 from typing import TypedDict
-import frontmatter
 import re
 import os
 
@@ -14,6 +13,7 @@ WikiLink = TypedDict("WikiLink", {"wiki_link": str, "link": str, "text": str})
 def get_wiki_links(text: str) -> list[WikiLink]:
     """
     Get all wiki links from the given text and return a list of them.
+    
     Each list item is a dictionary with the following keys:
     - wiki_link: the exact match
     - link: the extracted link
@@ -48,9 +48,7 @@ def update_link_to_hugo_bundle(link: WikiLink) -> str:
 
 
 def wiki_link_to_hugo_link(wiki_link: WikiLink) -> str:
-    """
-    Convert the wiki link into a hugo link.
-    """
+    """Convert the wiki link into a hugo link."""
     # if the links contains a link to a heading, convert the heading part to
     # lower case and replace spaces by minus
     link_seperated = wiki_link["link"].split("#", 1)
@@ -86,5 +84,3 @@ def get_hashtags(text: str) -> list[str]:
     for hashtag in hashtag_list:
         print(hashtag)
     return hashtag_list
-
-
