@@ -1,0 +1,19 @@
+# .github/workflows/test_action.yaml
+name: Test Action
+on: [push]
+
+jobs:
+  get-num-square:
+    runs-on: ubuntu-latest
+    name: Test Obsidian2Hugo
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Fetch num squared
+        id: obsidian-processor
+        uses: ./ # Uses an action in the root directory
+        # or use a released GitHub Action
+        with:
+          obsidian-vault-dir: "obsidian-vault"
+          hugo-content-dir: "hugo/content/article"
+          export-dir: "knowledge/blog"
